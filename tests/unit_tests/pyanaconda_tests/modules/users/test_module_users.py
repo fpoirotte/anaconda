@@ -522,6 +522,7 @@ class UsersInterfaceTestCase(unittest.TestCase):
         user --name=user1 --homedir=user1_home --password=foo --shell=ksh --uid=123 --gecos=baz --gid=345 --groups=a,b,c,d --plaintext
         user --name=user2 --homedir=user2_home --password=asasas --shell=csh --uid=321 --gecos=bar --gid=543 --groups=wheel,mockuser --iscrypted
         user --name=user3 --lock
+        user --name=user4 --uid=0 --gid=0
         """
         ks_out = """
         #Root password
@@ -529,6 +530,7 @@ class UsersInterfaceTestCase(unittest.TestCase):
         user --groups=a,b,c,d --homedir=user1_home --name=user1 --password=foo --shell=ksh --uid=123 --gecos="baz" --gid=345
         user --groups=wheel,mockuser --homedir=user2_home --name=user2 --password=asasas --iscrypted --shell=csh --uid=321 --gecos="bar" --gid=543
         user --name=user3 --lock
+        user --name=user4 --uid=0 --gid=0
         """
         self._test_kickstart(ks_in, ks_out)
 
@@ -538,11 +540,13 @@ class UsersInterfaceTestCase(unittest.TestCase):
         group --name=group1 --gid=321
         group --name=group2 --gid=654
         group --name=group3
+        group --name=group4 --gid=0
         """
         ks_out = """
         group --name=group1 --gid=321
         group --name=group2 --gid=654
         group --name=group3
+        group --name=group4 --gid=0
         #Root password
         rootpw --lock
         """

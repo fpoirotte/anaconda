@@ -385,7 +385,7 @@ def create_user(username, password=False, is_crypted=False, lock=False,
     if check_user_exists(username, root):
         raise ValueError("User %s already exists" % username)
 
-    args = ["-R", root]
+    args = ["-R", root, "-o"]
 
     # Split the groups argument into a list of (username, gid or None) tuples
     # the gid, if any, is a string since that makes things simpler
@@ -400,7 +400,7 @@ def create_user(username, password=False, is_crypted=False, lock=False,
     #   - if neither of those are true, create a new user group with the requested
     #     GID
     # otherwise use -U to create a new user group with the next available GID.
-    if gid:
+    if gid is not None:
         if not _getgrgid(gid, root) and not any(one_gid[1] == str(gid) for one_gid in group_gids):
             create_group(username, gid=gid, root=root)
 
@@ -445,7 +445,7 @@ def create_user(username, password=False, is_crypted=False, lock=False,
     if shell:
         args.extend(["-s", shell])
 
-    if uid:
+    if uid is not None:
         args.extend(["-u", str(uid)])
 
     if gecos:
